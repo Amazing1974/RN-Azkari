@@ -4,6 +4,8 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import HomeScreen from './src/screens/HomeScreen';
 import PrayersListScreen from './src/screens/PrayersListScreen';
+import MyPrayersScreen from './src/screens/MyPrayersScreen';
+import EditMyPrayersScreen from './src/screens/EditMyPrayersScreen';
 
 const routeConfig = {
   HomeScreen: {
@@ -11,6 +13,12 @@ const routeConfig = {
   },
   PrayersListScreen: {
     screen: PrayersListScreen,
+  },
+  MyPrayersScreen: {
+    screen: MyPrayersScreen,
+  },
+  EditMyPrayersScreen: {
+    screen: EditMyPrayersScreen,
   },
 }
 

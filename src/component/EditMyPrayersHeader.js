@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 
 const { PALETTE, IMAGES, COLORS } = R;
 
-const HomeHeader = ({ onPressUser }) => {
+const EditMyPrayersHeader = ({ onPressBack, onPressPlus, onPressMinus }) => {
   return (
     <View
       style={[
@@ -17,12 +17,14 @@ const HomeHeader = ({ onPressUser }) => {
           marginTop: StatusBar.currentHeight,
         },
       ]}>
-      <Text style={styles.headerText}>{'Categories'}</Text>
-      <TouchableOpacity onPress={onPressUser}>
+      <TouchableOpacity onPress={onPressBack}>
         <Text>
-          <Icon name="user" size={20} color={COLORS.white} />
+          <Icon name="arrowleft" size={20} color={COLORS.white} />
         </Text>
       </TouchableOpacity>
+      <Text style={styles.headerText}>{'Prayers'}</Text>
+      <View style={PALETTE.row}>
+      </View>
     </View>
   )
 };
@@ -40,4 +42,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeHeader;
+export default EditMyPrayersHeader;
