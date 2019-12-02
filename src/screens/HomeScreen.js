@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { View, Image, FlatList, StyleSheet } from 'react-native';
+import { View, Image, FlatList, StyleSheet, Platform } from 'react-native';
+import { ifIphoneX } from 'react-native-iphone-x-helper';
 import R from '../component/R';
 import HomeHeader from '../component/HomeHeader';
 import PrayersItem from '../component/PrayersItem';
@@ -71,7 +72,7 @@ const HomeScreen = props => {
       />
 
       {/** Body Section */}
-      <View style={PALETTE.center}>
+      <View style={PALETTE.center, styles.bodyWrapper}>
         <FlatList 
           data={userData}
           style={styles.flatWrapper}
@@ -92,12 +93,24 @@ const HomeScreen = props => {
 
 var styles = StyleSheet.create({
   bgImage: {
-    flex: 1,
+    width: '100%',
+    height: '100%',
     resizeMode: 'cover',
     position: 'absolute',
   },
+  bodyWrapper: {
+    ...ifIphoneX(
+      {
+        marginBottom: 50,
+      },
+      Platform.OS === 'ios' && {
+        marginBottom: 20,
+      },
+    ),
+  },
   flatWrapper: {
     width: '100%',
+    height: '100%',
     paddingHorizontal: 20,
   }
 });

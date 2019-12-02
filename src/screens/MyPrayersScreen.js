@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { View, Image, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Image, Text, FlatList, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import R from '../component/R';
 import MyPrayersHeader from '../component/MyPrayersHeader';
 import MyPrayersDetailItem from '../component/MyPrayersDetailItem';
+import { ifIphoneX } from 'react-native-iphone-x-helper';
 import Database from '../../Database';
 
 const { COLORS, IMAGES, PALETTE } = R;
@@ -119,6 +120,14 @@ const MyPrayersScreen = props => {
 var styles = StyleSheet.create({
   flatList: {
     width: 200,
+    ...ifIphoneX(
+      {
+        marginBottom: 50,
+      },
+      Platform.OS === 'ios' && {
+        marginBottom: 20,
+      },
+    ),
   },
   text: {
     fontSize: 14,

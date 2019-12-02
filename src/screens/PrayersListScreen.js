@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { View, Image, FlatList, StyleSheet } from 'react-native';
+import { View, Image, FlatList, StyleSheet, Platform } from 'react-native';
 import R from '../component/R';
+import { ifIphoneX } from 'react-native-iphone-x-helper';
 import PrayersHeader from '../component/PrayersHeader';
 import PrayersDetailItem from '../component/PrayersDetailItem';
 import Database from '../../Database';
@@ -72,6 +73,7 @@ const PrayersListScreen = props => {
         <FlatList
           data={prayersData}
           extraData={refresh}
+          style={styles.flatList}
           renderItem={({ item, index }) => (
             <PrayersDetailItem
               pContent={item.text}
@@ -94,6 +96,16 @@ var styles = StyleSheet.create({
   },
   bodyWrapper: {
     flex: 1,
+  },
+  flatList: {
+    ...ifIphoneX(
+      {
+        marginBottom: 50,
+      },
+      Platform.OS === 'ios' && {
+        marginBottom: 20,
+      },
+    ),
   }
 });
 
