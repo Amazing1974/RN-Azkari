@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Image, FlatList, StyleSheet, AsyncStorage } from 'react-native';
+import { View, Image, FlatList, StyleSheet, AsyncStorage, Share } from 'react-native';
 import R from '../component/R';
 import HomeHeader from '../component/HomeHeader';
 import PrayersItem from '../component/PrayersItem';
@@ -85,6 +85,14 @@ const HomeScreen = props => {
     setUserData(newData);
   }
 
+  onShare = () => {
+    Share.share({
+      message: `Azkari App تطبيق أذكاري  
+      https://play.google.com/store/apps/details?id=www.akfaa.co.azkari`,
+      title: 'Share with'
+    });
+  }
+
   return (
     <View
       style={[
@@ -98,7 +106,7 @@ const HomeScreen = props => {
       
       {/** Header Section */}
       <HomeHeader
-        onPressUser={() => {}}
+        onShare={onShare}
       />
 
       {/** Body Section */}

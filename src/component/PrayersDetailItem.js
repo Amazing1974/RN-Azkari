@@ -5,7 +5,7 @@ import R from './R';
 
 const { PALETTE, IMAGES, COLORS } = R;
 
-const PrayersDetailItem = ({pContent, pCount, onPressCount, fontSize}) => {
+const PrayersDetailItem = ({pContent, pCount, onPressCount, fontSize, onShare}) => {
   return (
     <TouchableOpacity style={styles.mainWrapper} onPress={onPressCount}>
       <View
@@ -23,10 +23,10 @@ const PrayersDetailItem = ({pContent, pCount, onPressCount, fontSize}) => {
         styles.countWrapper
       ]}>
         <Text style={styles.textCount}>{pCount}</Text>
-        <TouchableOpacity>
-        <Text>
-          <Icon name="sharealt" size={20} color={COLORS.white} />
-        </Text>
+        <TouchableOpacity onPress={onShare}>
+          <Text>
+            <Icon name="sharealt" size={20} color={COLORS.white} />
+          </Text>
         </TouchableOpacity>
       </View>
     </TouchableOpacity>

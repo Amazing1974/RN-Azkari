@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Image, FlatList, StyleSheet } from 'react-native';
+import { View, Image, FlatList, StyleSheet, Share } from 'react-native';
 import R from '../component/R';
 import PrayersHeader from '../component/PrayersHeader';
 import PrayersDetailItem from '../component/PrayersDetailItem';
@@ -49,6 +49,14 @@ const PrayersListScreen = props => {
       setRefresh(!refresh);
     }
   };
+
+  const onShare = () => {
+    Share.share({
+      message: `Azkari App تطبيق أذكاري  
+      https://play.google.com/store/apps/details?id=www.akfaa.co.azkari`,
+      title: 'Share with'
+    });
+  };
   
   return (
     <View
@@ -80,6 +88,7 @@ const PrayersListScreen = props => {
               pContent={item.text}
               pCount={item.times}
               fontSize={fontSize}
+              onShare={onShare}
               onPressCount={() => setCount(index)}
             />
           )}

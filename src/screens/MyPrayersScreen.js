@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Image, Text, FlatList, StyleSheet, TouchableOpacity, Platform } from 'react-native';
+import { View, Image, Text, FlatList, StyleSheet, TouchableOpacity, Share } from 'react-native';
 import R from '../component/R';
 import MyPrayersHeader from '../component/MyPrayersHeader';
 import MyPrayersDetailItem from '../component/MyPrayersDetailItem';
@@ -83,6 +83,14 @@ const MyPrayersScreen = props => {
     }
   };
 
+  const onShare = () => {
+    Share.share({
+      message: `Azkari App تطبيق أذكاري  
+      https://play.google.com/store/apps/details?id=www.akfaa.co.azkari`,
+      title: 'Share with'
+    });
+  }
+
   return (
     <View
       style={[
@@ -116,6 +124,7 @@ const MyPrayersScreen = props => {
               pContent={item.text}
               pCount={item.times}
               fontSize={fontSize}
+              onShare={onShare}
               onPressCount={() => setCount(index)}
               editPrayers={() => props.navigation.navigate('EditMyPrayersScreen', { editSubmit: editSubmit, deleteSubmit, deleteSubmit, data: prayersData[index], flag: 1, index: index })}
             />

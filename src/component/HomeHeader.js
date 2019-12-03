@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 
 const { PALETTE, IMAGES, COLORS } = R;
 
-const HomeHeader = ({ onPressUser }) => {
+const HomeHeader = ({ onShare }) => {
   return (
     <View
       style={[
@@ -18,7 +18,7 @@ const HomeHeader = ({ onPressUser }) => {
         },
       ]}>
       <Text style={styles.headerText}>{'Categories'}</Text>
-      <TouchableOpacity onPress={onPressUser}>
+      <TouchableOpacity onPress={onShare}>
         <Text>
           <Icon name="sharealt" size={20} color={COLORS.white} />
         </Text>
