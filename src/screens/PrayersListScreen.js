@@ -25,14 +25,15 @@ const PrayersListScreen = props => {
     } else {
       newArr.splice(index, 1);
     }
-    db.updatePrayers(userID, newArr);
+    // db.updatePrayers(userID, newArr);
     setPrayersData(newArr);
   };
 
   const update = () => {
-    const updateHomeData = props.navigation.getParam('update', '');
-    const index = props.navigation.getParam('index', '');
-    updateHomeData(prayersData, index, fontSize);
+    const updateFont = props.navigation.getParam('updateFont', '');
+    // const index = props.navigation.getParam('index', '');
+    // updateHomeData(prayersData, index, fontSize);
+    updateFont(fontSize);
     props.navigation.goBack();
   };
   

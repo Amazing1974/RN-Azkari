@@ -7,19 +7,19 @@ const { PALETTE, IMAGES, COLORS } = R;
 
 const MyPrayersDetailItem = ({pContent, pCount, onPressCount, editPrayers, fontSize, onShare}) => {
   return (
-    <TouchableOpacity style={styles.mainWrapper} onPress={onPressCount}>
-      <View
+    <View style={styles.mainWrapper}>
+      <TouchableOpacity
         style={[
           styles.itemWrapper,
         ]}
+        onPress={onPressCount}
       >
         <Text style={[styles.textContent, {fontSize: fontSize}]}>{pContent + '\n'}</Text>
-        
-      </View>
+      </TouchableOpacity>
       <View style={[
         PALETTE.row, 
         PALETTE.primaryBetween, 
-        PALETTE.secondaryCenter, 
+        PALETTE.secondaryCenter,
         styles.countWrapper
       ]}>
         <View style={PALETTE.row}>
@@ -36,7 +36,7 @@ const MyPrayersDetailItem = ({pContent, pCount, onPressCount, editPrayers, fontS
           </Text>
         </TouchableOpacity>  
       </View>
-    </TouchableOpacity>
+    </View>
   )
 };
 

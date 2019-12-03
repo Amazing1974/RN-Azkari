@@ -24,7 +24,8 @@ const MyPrayersScreen = props => {
     } else {
       newArr.splice(index, 1);
     }
-    db.updatePrayers('myData', newArr);
+    
+    // db.updatePrayers('myData', newArr);
     setPrayersData(newArr);
   };
 
@@ -54,7 +55,7 @@ const MyPrayersScreen = props => {
 
   const deleteSubmit = ( index ) => {
     const newArr = prayersData;
-    newArr.splice(1, index);
+    newArr.splice(index, 1);
     db.updatePrayers('myData', newArr);
 
     const updateData = props.navigation.getParam('update', '');
@@ -64,8 +65,8 @@ const MyPrayersScreen = props => {
   }
 
   const update = () => {
-    const updateData = props.navigation.getParam('update', '');
-    updateData(prayersData, 0, fontSize);
+    const updateFont = props.navigation.getParam('updateFont', '');
+    updateFont(fontSize);
     props.navigation.goBack();
   }
 
@@ -99,7 +100,7 @@ const MyPrayersScreen = props => {
           backgroundColor: COLORS.bluePastel,
         },
       ]}>
-        
+      
       <Image source={IMAGES.BACKGROUND} style={styles.bgImage}/>
       
       {/** Header Section */}

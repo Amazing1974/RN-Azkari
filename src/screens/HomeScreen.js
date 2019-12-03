@@ -85,6 +85,10 @@ const HomeScreen = props => {
     setUserData(newData);
   }
 
+  const updateFont = (fontSize) => {    
+    _storeData(fontSize);
+  }
+
   onShare = () => {
     Share.share({
       message: `Azkari App تطبيق أذكاري  
@@ -120,13 +124,13 @@ const HomeScreen = props => {
               pName={item.userName}
               onPress={() => {
                 index == 0 ? (
-                  props.navigation.navigate('MyPrayersScreen', { myData: userData[0].prayers, update: update, fontSize: fontSize })
+                  props.navigation.navigate('MyPrayersScreen', { myData: userData[0].prayers, update: update, fontSize: fontSize, updateFont: updateFont, })
                 ): (
                   props.navigation.navigate('PrayersListScreen', { 
                     index: index, 
                     id: item.userId, 
                     prayers: item.prayers,
-                    update: update, 
+                    updateFont: updateFont, 
                     userName: item.userName,
                     fontSize: fontSize,
                   })
