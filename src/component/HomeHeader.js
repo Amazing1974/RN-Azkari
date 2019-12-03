@@ -20,7 +20,7 @@ const HomeHeader = ({ onPressUser }) => {
       <Text style={styles.headerText}>{'Categories'}</Text>
       <TouchableOpacity onPress={onPressUser}>
         <Text>
-          <Icon name="user" size={20} color={COLORS.white} />
+          <Icon name="sharealt" size={20} color={COLORS.white} />
         </Text>
       </TouchableOpacity>
     </View>

@@ -3,7 +3,6 @@ import { View, Image, Text, FlatList, StyleSheet, TouchableOpacity, Platform } f
 import R from '../component/R';
 import MyPrayersHeader from '../component/MyPrayersHeader';
 import MyPrayersDetailItem from '../component/MyPrayersDetailItem';
-import { ifIphoneX } from 'react-native-iphone-x-helper';
 import Database from '../../Database';
 
 const { COLORS, IMAGES, PALETTE } = R;
@@ -16,7 +15,7 @@ const MyPrayersScreen = props => {
   const MYPRAYERS_DATA = JSON.parse(props.navigation.getParam('myData', ''));
   const [prayersData, setPrayersData] = useState(MYPRAYERS_DATA);
   const [refresh, setRefresh] = useState(false);
-  const [fontSize, setFontSize] = useState(18);
+  const [fontSize, setFontSize] = useState(props.navigation.getParam('fontSize', 0));
 
   const setCount = index => {
     let newArr = [...prayersData];
@@ -25,7 +24,7 @@ const MyPrayersScreen = props => {
     } else {
       newArr.splice(index, 1);
     }
-    db.updatePrayers('myData', newArr)
+    db.updatePrayers('myData', newArr);
     setPrayersData(newArr);
   };
 
@@ -53,9 +52,20 @@ const MyPrayersScreen = props => {
     setRefresh(!refresh);
   }
 
-  const update = () => {
+  const deleteSubmit = ( index ) => {
+    const newArr = prayersData;
+    newArr.splice(1, index);
+    db.updatePrayers('myData', newArr);
+
     const updateData = props.navigation.getParam('update', '');
     updateData(prayersData, 0);
+    setPrayersData(newArr);
+    setRefresh(!refresh);
+  }
+
+  const update = () => {
+    const updateData = props.navigation.getParam('update', '');
+    updateData(prayersData, 0, fontSize);
     props.navigation.goBack();
   }
 
@@ -92,11 +102,11 @@ const MyPrayersScreen = props => {
       />
 
       {/** Body Section */}
-      <View style={[PALETTE.center,PALETTE.f1, {marginTop: 30,}]}>
+      <View style={[PALETTE.center, PALETTE.f1]}>
         <TouchableOpacity style={styles.addBtn} onPress={() => props.navigation.navigate('EditMyPrayersScreen', { addSubmit: addSubmit })}>
           <Text style={styles.text}>{'Add My New Prayers'}</Text>
         </TouchableOpacity>
-        <View>
+        <View style={styles.flatListWrapper}>
         <FlatList
           data={prayersData}
           extraData={refresh}
@@ -107,7 +117,7 @@ const MyPrayersScreen = props => {
               pCount={item.times}
               fontSize={fontSize}
               onPressCount={() => setCount(index)}
-              editPrayers={() => props.navigation.navigate('EditMyPrayersScreen', { editSubmit: editSubmit, data: prayersData[index], flag: 1, index: index })}
+              editPrayers={() => props.navigation.navigate('EditMyPrayersScreen', { editSubmit: editSubmit, deleteSubmit, deleteSubmit, data: prayersData[index], flag: 1, index: index })}
             />
           )}
         />
@@ -118,31 +128,28 @@ const MyPrayersScreen = props => {
 }
 
 var styles = StyleSheet.create({
-  flatList: {
-    width: 200,
-    ...ifIphoneX(
-      {
-        marginBottom: 50,
-      },
-      Platform.OS === 'ios' && {
-        marginBottom: 20,
-      },
-    ),
-  },
   text: {
     fontSize: 14,
     color: 'white',
   },
   addBtn: {
+    position: 'absolute',
     marginVertical: 10,
     padding: 10,
     backgroundColor: COLORS.blue,
     borderRadius: 10,
+    bottom: 0,
+    zIndex: 1,
   },
   bgImage: {
+    marginTop: 60,
     flex: 1,
     resizeMode: 'cover',
     position: 'absolute',
+  },
+  flatListWrapper: {
+    marginTop: 10,
+    marginBottom: 60,
   },
 });
 

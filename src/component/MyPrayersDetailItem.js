@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/EvilIcons';
+import Icon from 'react-native-vector-icons/AntDesign';
 import R from './R';
 
 const { PALETTE, IMAGES, COLORS } = R;
 
 const MyPrayersDetailItem = ({pContent, pCount, onPressCount, editPrayers, fontSize}) => {
   return (
-    <TouchableOpacity style={styles.mainWrapper} onPress={editPrayers}>
+    <TouchableOpacity style={styles.mainWrapper} onPress={onPressCount}>
       <View
         style={[
           styles.itemWrapper,
@@ -22,12 +22,19 @@ const MyPrayersDetailItem = ({pContent, pCount, onPressCount, editPrayers, fontS
         PALETTE.secondaryCenter, 
         styles.countWrapper
       ]}>
+        <View style={PALETTE.row}>
         <Text style={styles.textCount}>{pCount}</Text>
-        <TouchableOpacity onPress={onPressCount}>
-        <Text>
-          <Icon name="arrow-right" size={20} color={COLORS.white} />
-        </Text>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={editPrayers} style={{paddingLeft: 10,}}>
+            <Text>
+              <Icon name="edit" size={20} color={COLORS.white} />
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity>
+          <Text>
+            <Icon name="sharealt" size={20} color={COLORS.white} />
+          </Text>
+        </TouchableOpacity>  
       </View>
     </TouchableOpacity>
   )

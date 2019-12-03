@@ -19,7 +19,6 @@ const EditMyPrayersScreen = props => {
 
   useEffect(() => {
     if (flag === 1) {
-      console.log(edtData);
       setTimes(edtData.times);
       setText(edtData.text);
     }
@@ -35,6 +34,12 @@ const EditMyPrayersScreen = props => {
       addSubmit(times, text);
       props.navigation.goBack();
     }
+  }
+
+  const del = () => {
+    const deleteSubmit = props.navigation.getParam('deleteSubmit', '');
+    deleteSubmit(index);
+    props.navigation.goBack();
   }
 
   return (
@@ -75,9 +80,20 @@ const EditMyPrayersScreen = props => {
           onChangeText={text => setTimes(text)}
         />
        </View>
-       <TouchableOpacity onPress={submit}>
-        <Text style={styles.submit}>{'Submit'}</Text>
-       </TouchableOpacity>
+       <View style={PALETTE.row}>
+        <TouchableOpacity onPress={submit}>
+          <Text style={styles.submit}>{'Submit'}</Text>
+        </TouchableOpacity>
+        {
+          flag == 1 ? (
+            <TouchableOpacity onPress={del} style={{marginLeft: 20,}}>
+              <Text style={styles.delete}>{'Delete'}</Text>
+            </TouchableOpacity>
+          ): (
+            <View />
+          )
+        }
+       </View>
       </View>
     </View>
   );
@@ -91,6 +107,16 @@ var styles = StyleSheet.create({
     fontSize: 16,
     padding: 10,
     backgroundColor: COLORS.blue,
+    borderRadius: 10,
+    textAlign: 'center',
+  },
+  delete: {
+    color: 'white',
+    width: 100,
+    marginTop: 20,
+    fontSize: 16,
+    padding: 10,
+    backgroundColor: '#ff4000',
     borderRadius: 10,
     textAlign: 'center',
   },

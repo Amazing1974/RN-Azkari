@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 
 const { PALETTE, IMAGES, COLORS } = R;
 
-const PrayersHeader = ({ onPressBack, onPressPlus, onPressMinus }) => {
+const PrayersHeader = ({ onPressBack, onPressPlus, onPressMinus, headerTitle }) => {
   return (
     <View
       style={[
@@ -22,7 +22,7 @@ const PrayersHeader = ({ onPressBack, onPressPlus, onPressMinus }) => {
           <Icon name="home" size={20} color={COLORS.white} />
         </Text>
       </TouchableOpacity>
-      <Text style={styles.headerText}>{'Prayers'}</Text>
+      <Text style={styles.headerText}>{headerTitle}</Text>
       <View style={PALETTE.row}>
         <TouchableOpacity onPress={onPressPlus}>
           <Text>

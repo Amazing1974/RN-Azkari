@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { View, Image, FlatList, StyleSheet, Platform } from 'react-native';
+import { View, Image, FlatList, StyleSheet } from 'react-native';
 import R from '../component/R';
-import { ifIphoneX } from 'react-native-iphone-x-helper';
 import PrayersHeader from '../component/PrayersHeader';
 import PrayersDetailItem from '../component/PrayersDetailItem';
 import Database from '../../Database';
@@ -12,10 +11,11 @@ const db = new Database();
 const PrayersListScreen = props => {
 
   const userID = props.navigation.getParam('id', 0);
+  const userName = props.navigation.getParam('userName', '');
   const PRAYERS_DETAIL_DATA = JSON.parse(props.navigation.getParam('prayers', ''));
   
   const [prayersData, setPrayersData] = useState(PRAYERS_DETAIL_DATA);
-  const [fontSize, setFontSize] = useState(18);
+  const [fontSize, setFontSize] = useState(props.navigation.getParam('fontSize', 0));
   const [refresh, setRefresh] = useState(false);
 
   const setCount = index => {
@@ -32,7 +32,7 @@ const PrayersListScreen = props => {
   const update = () => {
     const updateHomeData = props.navigation.getParam('update', '');
     const index = props.navigation.getParam('index', '');
-    updateHomeData(prayersData, index);
+    updateHomeData(prayersData, index, fontSize);
     props.navigation.goBack();
   };
   
@@ -66,6 +66,7 @@ const PrayersListScreen = props => {
         onPressBack={update}
         onPressPlus={incTextSize}
         onPressMinus={decTextSize}
+        headerTitle={userName}
       />
 
       {/** Body Section */}
@@ -73,7 +74,7 @@ const PrayersListScreen = props => {
         <FlatList
           data={prayersData}
           extraData={refresh}
-          style={styles.flatList}
+          keyExtractor={(item, index) => `${index}`}
           renderItem={({ item, index }) => (
             <PrayersDetailItem
               pContent={item.text}
@@ -90,6 +91,7 @@ const PrayersListScreen = props => {
 
 var styles = StyleSheet.create({
   bgImage: {
+    marginTop: 60,
     flex: 1,
     resizeMode: 'cover',
     position: 'absolute',
@@ -97,16 +99,6 @@ var styles = StyleSheet.create({
   bodyWrapper: {
     flex: 1,
   },
-  flatList: {
-    ...ifIphoneX(
-      {
-        marginBottom: 50,
-      },
-      Platform.OS === 'ios' && {
-        marginBottom: 20,
-      },
-    ),
-  }
 });
 
 export default PrayersListScreen;

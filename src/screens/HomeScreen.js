@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Image, FlatList, StyleSheet, Platform } from 'react-native';
-import { ifIphoneX } from 'react-native-iphone-x-helper';
+import { View, Image, FlatList, StyleSheet, AsyncStorage } from 'react-native';
 import R from '../component/R';
 import HomeHeader from '../component/HomeHeader';
 import PrayersItem from '../component/PrayersItem';
@@ -21,7 +20,11 @@ const myData =
 
 const db = new Database();
 
-const HomeScreen = props => {
+const HomeScreen = props => { 
+
+  const [userData, setUserData] = useState();
+  const [fontSize, setFontSize] = useState(18);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     db.initDB()
@@ -45,11 +48,38 @@ const HomeScreen = props => {
           // 
         }
       });
+      _retrieveData();
   }, []);
 
-  const [userData, setUserData] = useState();
+  _storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem('fSize', JSON.stringify(value))
+      .then(() => {
+        setFontSize(value);        
+        setRefresh(!refresh);
+      });
+    } catch (error) {
+      // Error saving data
+      console.log(error);
+    }
+  };
 
-  const update = (updatedPrayers, index) => {
+  _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('fSize');
+      if (value == null) {
+        _storeData(18);
+      } else {
+        setFontSize(JSON.parse(value));
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
+
+  const update = (updatedPrayers, index, fontSize) => {
+    
+    _storeData(fontSize);
     const newData = userData;
     newData[index].prayers = JSON.stringify(updatedPrayers);
     setUserData(newData);
@@ -68,20 +98,31 @@ const HomeScreen = props => {
       
       {/** Header Section */}
       <HomeHeader
-        onPressUser={() => props.navigation.navigate('MyPrayersScreen', { myData: userData[0].prayers, update: update })}
+        onPressUser={() => {}}
       />
 
       {/** Body Section */}
       <View style={PALETTE.center, styles.bodyWrapper}>
         <FlatList 
           data={userData}
-          style={styles.flatWrapper}
+          extraData={refresh}
           keyExtractor={(item, index) => `${index}`}
           renderItem={({ item, index }) => (
             <PrayersItem 
               pName={item.userName}
               onPress={() => {
-                props.navigation.navigate('PrayersListScreen', { index: index, id: item.userId, prayers: item.prayers, update: update});
+                index == 0 ? (
+                  props.navigation.navigate('MyPrayersScreen', { myData: userData[0].prayers, update: update, fontSize: fontSize })
+                ): (
+                  props.navigation.navigate('PrayersListScreen', { 
+                    index: index, 
+                    id: item.userId, 
+                    prayers: item.prayers,
+                    update: update, 
+                    userName: item.userName,
+                    fontSize: fontSize,
+                  })
+                )
               }}
             />
           )}
@@ -93,26 +134,14 @@ const HomeScreen = props => {
 
 var styles = StyleSheet.create({
   bgImage: {
-    width: '100%',
-    height: '100%',
+    marginTop: 60,
+    flex: 1,
     resizeMode: 'cover',
     position: 'absolute',
   },
   bodyWrapper: {
-    ...ifIphoneX(
-      {
-        marginBottom: 50,
-      },
-      Platform.OS === 'ios' && {
-        marginBottom: 20,
-      },
-    ),
+    flex: 1,
   },
-  flatWrapper: {
-    width: '100%',
-    height: '100%',
-    paddingHorizontal: 20,
-  }
 });
 
 export default HomeScreen;

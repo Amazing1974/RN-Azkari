@@ -21,9 +21,8 @@ const PrayersItem = ({pName, onPress}) => {
 
 const styles = StyleSheet.create({
   itemWrapper: {
-    width: '100%',
     height: 53,
-    paddingHorizontal: 24,
+    marginHorizontal: 24,
     backgroundColor: COLORS.blue,
     borderRadius: 10,
     marginVertical: 10,
